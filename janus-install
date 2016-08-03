@@ -1,0 +1,70 @@
+#!/bin/sh
+
+LIBSRTP_VERSION="1.5.4"
+LIBSRTP_DIR="libsrtp-$LIBSRTP_VERSION"
+LIBSRTP_ARCHIVE="$LIBSRTP_DIR.tar.gz"
+LIBSRTP_URL="https://github.com/cisco/libsrtp/archive/v$LIBSRTP_VERSION.tar.gz"
+
+USRSCTP_VERSION="0.9.3.0"
+USRSCTP_DIR="usrsctp-$USRSCTP_VERSION"
+USRSCTP_ARCHIVE="$USRSCTP_DIR.tar.gz"
+USRSCTP_URL="https://github.com/sctplab/usrsctp/archive/$USRSCTP_VERSION.tar.gz"
+
+LIBWS_VERSION="2.0.2"
+LIBWS_DIR="libwebsockets-$LIBWS_VERSION"
+LIBWS_ARCHIVE="$LIBWS_DIR.tar.gz"
+LIBWS_URL="https://github.com/warmcat/libwebsockets/archive/v$LIBWS_VERSION.tar.gz"
+
+JANUS_VERSION="0.1.1"
+JANUS_DIR="janus-gateway-$JANUS_VERSION"
+JANUS_ARCHIVE="$JANUS_DIR.tar.gz"
+JANUS_URL="https://github.com/meetecho/janus-gateway/archive/v$JANUS_VERSION.tar.gz"
+
+apt-get update && apt-get install -y \
+libmicrohttpd-dev \
+libjansson-dev \
+libnice-dev \
+libssl-dev \
+libsofia-sip-ua-dev \
+libglib2.0-dev \
+libopus-dev \
+libogg-dev \
+librabbitmq-dev \
+pkg-config \
+gengetopt \
+libtool \
+automake \
+wget \
+make \
+cmake
+
+cd ~
+wget -O "$LIBSRTP_ARCHIVE" "$LIBSRTP_URL"
+tar xzvf "$LIBSRTP_ARCHIVE"
+cd "$LIBSRTP_DIR"
+./configure --prefix=/usr --enable-openssl
+make shared_library && make install
+
+cd ~
+wget -O "$USRSCTP_ARCHIVE" "$USRSCTP_URL"
+tar xzvf "$USRSCTP_ARCHIVE"
+cd "$USRSCTP_DIR"
+./bootstrap
+./configure --prefix=/usr
+make && make install
+
+cd ~
+wget -O "$LIBWS_ARCHIVE" "$LIBWS_URL"
+tar xzvf "$LIBWS_ARCHIVE"
+cd "$LIBWS_DIR"
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr .
+make && make install
+
+cd ~
+wget -O "$JANUS_ARCHIVE" "$JANUS_URL"
+tar xzvf "$JANUS_ARCHIVE"
+cd "$JANUS_DIR"
+sh autogen.sh
+./configure --prefix=/opt/janus
+make && make install && make configs
+
