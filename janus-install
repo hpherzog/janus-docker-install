@@ -1,4 +1,6 @@
 #!/bin/sh
+#
+# Installs the Janus WebRTC Gateway on Debian (jessie)
 
 LIBSRTP_VERSION="1.5.4"
 LIBSRTP_DIR="libsrtp-$LIBSRTP_VERSION"
@@ -38,14 +40,14 @@ wget \
 make \
 cmake
 
-cd ~
+cd /tmp
 wget -O "$LIBSRTP_ARCHIVE" "$LIBSRTP_URL"
 tar xzvf "$LIBSRTP_ARCHIVE"
 cd "$LIBSRTP_DIR"
 ./configure --prefix=/usr --enable-openssl
 make shared_library && make install
 
-cd ~
+cd /tmp
 wget -O "$USRSCTP_ARCHIVE" "$USRSCTP_URL"
 tar xzvf "$USRSCTP_ARCHIVE"
 cd "$USRSCTP_DIR"
@@ -53,14 +55,14 @@ cd "$USRSCTP_DIR"
 ./configure --prefix=/usr
 make && make install
 
-cd ~
+cd /tmp
 wget -O "$LIBWS_ARCHIVE" "$LIBWS_URL"
 tar xzvf "$LIBWS_ARCHIVE"
 cd "$LIBWS_DIR"
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr .
 make && make install
 
-cd ~
+cd /tmp
 wget -O "$JANUS_ARCHIVE" "$JANUS_URL"
 tar xzvf "$JANUS_ARCHIVE"
 cd "$JANUS_DIR"
