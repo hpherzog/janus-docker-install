@@ -9,4 +9,4 @@ Build docker image
 Run docker image
 ----------------
 
-    docker run -t -i -p 8088:8088 janus-gateway
+    docker run -t -i -p 8088:8088 -p 7088:7088 -p 8188:8188 janus-gateway
