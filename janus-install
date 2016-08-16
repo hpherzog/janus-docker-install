@@ -17,6 +17,11 @@ LIBWS_DIR="libwebsockets-$LIBWS_VERSION"
 LIBWS_ARCHIVE="$LIBWS_DIR.tar.gz"
 LIBWS_URL="https://github.com/warmcat/libwebsockets/archive/v$LIBWS_VERSION.tar.gz"
 
+LIBNICE_VERSION="0.1.13"
+LIBNICE_DIR="libnice-$LIBNICE_VERSION"
+LIBNICE_ARCHIVE="$LIBNICE_DIR.tar.gz"
+LIBNICE_URL="https://github.com/libnice/libnice/archive/$LIBNICE_VERSION.tar.gz"
+
 JANUS_VERSION="0.1.1"
 JANUS_DIR="janus-gateway-$JANUS_VERSION"
 JANUS_ARCHIVE="$JANUS_DIR.tar.gz"
@@ -25,20 +30,21 @@ JANUS_URL="https://github.com/meetecho/janus-gateway/archive/v$JANUS_VERSION.tar
 apt-get update && apt-get install -y \
 libmicrohttpd-dev \
 libjansson-dev \
-libnice-dev \
 libssl-dev \
 libsofia-sip-ua-dev \
 libglib2.0-dev \
 libopus-dev \
 libogg-dev \
 librabbitmq-dev \
+libglib2.0-0 \
 pkg-config \
 gengetopt \
 libtool \
 automake \
 wget \
 make \
-cmake
+cmake \
+gtk-doc-tools
 
 cd /tmp
 wget -O "$LIBSRTP_ARCHIVE" "$LIBSRTP_URL"
@@ -60,6 +66,14 @@ wget -O "$LIBWS_ARCHIVE" "$LIBWS_URL"
 tar xzvf "$LIBWS_ARCHIVE"
 cd "$LIBWS_DIR"
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr .
+make && make install
+
+cd /tmp
+wget -O "$LIBNICE_ARCHIVE" "$LIBNICE_URL"
+tar xzvf "$LIBNICE_ARCHIVE"
+cd "$LIBNICE_DIR"
+./autogen.sh
+./configure
 make && make install
 
 cd /tmp
