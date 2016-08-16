@@ -73,7 +73,7 @@ wget -O "$LIBNICE_ARCHIVE" "$LIBNICE_URL"
 tar xzvf "$LIBNICE_ARCHIVE"
 cd "$LIBNICE_DIR"
 ./autogen.sh
-./configure
+./configure --prefix=/usr
 make && make install
 
 cd /tmp
